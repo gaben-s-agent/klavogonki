@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          save_race_in_blog_custom
 // @namespace     klavogonki
-// @version       1.1.8
+// @version       1.1.9
 // @description   добавляет кнопку для сохранения результата любого заезда в бортжурнале
 // @include       http://klavogonki.ru/g/*
 // @include       https://klavogonki.ru/g/*
@@ -25,7 +25,7 @@ function saveRaceInBlog () {
 
 			for (var i = 0; i < json.players.length; i++) {
 				if ('record' in json.players[i] && json.players[i].record.user === userId) {
-					return json.players[i].record.id;
+					return json.players[i].user.best_speed;
 				}
 			}
 
@@ -36,6 +36,11 @@ function saveRaceInBlog () {
 	}
 
 	function saveResult (res) {
+        var percent = parseFloat(((res.stats.speed + '00') / res.best).toFixed(1)); //округление процента до указанного количества знаков после запятой
+        if(percent >= 95)
+            percent = '**'+percent+'%**';
+        else
+            percent += '%';
 		if (document.getElementById('spectrumCanvas') !== null) {
 			if (document.getElementById('spectrumCanvas').firstElementChild !== null) {
 				new Promise(function(resolve, reject) {
@@ -65,13 +70,15 @@ function saveRaceInBlog () {
 						} else {
 							text += '*' + gameTypes[res.gameType] + '* | **' + comp + '** | **';
 						}
+                        //console.log('aaaaaaaaaaaaaaa', reader.result);
 						if (game.getGametype() == 'marathon') {
 							text += res.stats.speed + '&nbsp;зн/мин** | *' +
 							res.stats.errors.replace(')', '&#41;*\n\n') +
 							'*![сложнограмма](' + reader.result + ')*\n\n' +
 							res.author + '\n**' + res.title + '**\n![обложка](' + res.pic + ')\n\n';
 						} else {
-						text += res.stats.speed + '&nbsp;зн/мин** | *' +
+                            text += res.stats.speed + '&nbsp;зн/мин** | ' +
+                            percent + ' | *' +
 							res.stats.errors.replace(')', '&#41;* | *') +
 							res.stats.time + '*\n\n' +
 							'*![сложнограмма](' + reader.result + ')*\n\n';
@@ -127,7 +134,8 @@ function saveRaceInBlog () {
 				res.stats.errors.replace(')', '&#41;*\n\n') +
 				res.author + '\n**' + res.title + '**\n![обложка](' + res.pic + ')\n\n';
 		} else {
-		text += res.stats.speed + '&nbsp;зн/мин** | *' +
+		text += res.stats.speed + '&nbsp;зн/мин** | ' +
+            percent + ' | *' +
 			res.stats.errors.replace(')', '&#41;* | *') +
 			res.stats.time + '*\n\n'
 
@@ -145,6 +153,7 @@ function saveRaceInBlog () {
 		xhr.onload = function () {
 			if (this.status !== 200) {
 				throw new Error('Something went wrong.');
+                alert('Произошла ошибка. Повторите снова.');
 			}
 
 			alert('Запись успешно добавлена.');
@@ -157,7 +166,7 @@ function saveRaceInBlog () {
 	}
 //}
 
-function init (resultId) {
+function init (bestSpeed) {
 	var container = document.createElement('div');
 	container.style.fontSize = '10pt';
 	container.style.display = 'flex';
@@ -206,8 +215,8 @@ function init (resultId) {
 	};
 
 	var resultData = {
-		id: resultId,
 		stats: stats,
+        best: bestSpeed,
 		typedHtml: typed.innerHTML,
 		gameType: gameType,
 		vocName: vocName,
@@ -241,9 +250,9 @@ var proxied = window.XMLHttpRequest.prototype.send;
 
 window.XMLHttpRequest.prototype.send = function () {
 	this.addEventListener('load', function () {
-		var resultId = checkJSON(this.responseText);
-		if (resultId) {
-			init(resultId);
+		var bestSpeed = checkJSON(this.responseText);
+		if (bestSpeed) {
+			init(bestSpeed);
 		}
 	}.bind(this));
 	return proxied.apply(this, [].slice.call(arguments));
