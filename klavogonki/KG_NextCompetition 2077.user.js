@@ -73,10 +73,12 @@
     async function updateBackBtn() {
         let data = JSON.parse(localStorage[localStorageName]);
         let gmidcurrent = document.URL.match(/(\d+)/)[0];
-        if (gmidcurrent == gmid) {
+        //if (gmidcurrent == gmid) {
+        if (document.getElementById('gamedesc').innerText.match(/соревнование/g) != null) {
             backLink = data.currentGame.link;
             backBtn.style.display = '';
             backBtn.addEventListener('click', () => { window.location.href = backLink });
+            console.log('aboba');
             return;
         }
         backBtn.addEventListener('click', () => { window.location.href = backLink })
@@ -112,7 +114,7 @@
     function updateTimer() {
         if (begintime) {
             let timenow = Date.now().toString().slice(0, -3);
-            let remaining = begintime - timenow - 3;
+            let remaining = begintime - timenow - 3; //
             if (remaining > 0) {
                 if (remaining < 30 && color == 'red !important')
                     color = '#af0000 !important';
