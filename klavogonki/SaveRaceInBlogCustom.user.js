@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          save_race_in_blog_custom
 // @namespace     klavogonki
-// @version       1.1.9
+// @version       1.1.91
 // @description   добавляет кнопку для сохранения результата любого заезда в бортжурнале
 // @include       http://klavogonki.ru/g/*
 // @include       https://klavogonki.ru/g/*
@@ -72,14 +72,14 @@ function saveRaceInBlog () {
 						}
                         //console.log('aaaaaaaaaaaaaaa', reader.result);
 						if (game.getGametype() == 'marathon') {
-							text += res.stats.speed + '&nbsp;зн/мин** | *' +
-							res.stats.errors.replace(')', '&#41;*\n\n') +
+							text += res.stats.speed + ' зн/мин** | *' +
+							res.stats.errors.replace(/[\(\)]/g, '') + '*\n\n' +
 							'*![сложнограмма](' + reader.result + ')*\n\n' +
 							res.author + '\n**' + res.title + '**\n![обложка](' + res.pic + ')\n\n';
 						} else {
-                            text += res.stats.speed + '&nbsp;зн/мин** | ' +
+                            text += res.stats.speed + ' зн/мин** | ' +
                             percent + ' | *' +
-							res.stats.errors.replace(')', '&#41;* | *') +
+							res.stats.errors.replace(/[\(\)]/g, '') + '* | *' +
 							res.stats.time + '*\n\n' +
 							'*![сложнограмма](' + reader.result + ')*\n\n';
 
@@ -130,13 +130,13 @@ function saveRaceInBlog () {
 		}
 
 		if (game.getGametype() == 'marathon') {
-			text += res.stats.speed + '&nbsp;зн/мин** | *' +
-				res.stats.errors.replace(')', '&#41;*\n\n') +
+			text += res.stats.speed + ' зн/мин** | *' +
+				res.stats.errors.replace(/[\(\)]/g, '') + '*\n\n' +
 				res.author + '\n**' + res.title + '**\n![обложка](' + res.pic + ')\n\n';
 		} else {
-		text += res.stats.speed + '&nbsp;зн/мин** | ' +
+		text += res.stats.speed + ' зн/мин** | ' +
             percent + ' | *' +
-			res.stats.errors.replace(')', '&#41;* | *') +
+			res.stats.errors.replace(/[\(\)]/g, '') + '* | *' +
 			res.stats.time + '*\n\n'
 
 			var typedMarked = res.typedHtml
