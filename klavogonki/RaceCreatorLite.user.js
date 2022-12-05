@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         RaceCreatorLite
 // @namespace    klavogonki
-// @version      0.32
+// @version      0.33
 // @author       490344
 // @include      http://klavogonki.ru/g/*
 // @include      https://klavogonki.ru/g/*
@@ -28,7 +28,12 @@
     var RCLTimeout = document.createElement('select');
     var RCLMin = document.createElement('select');
     var RCLMax = document.createElement('select');
-    var RCLMode = document.createElement('input');
+    var RCLMode = document.createElement('div');
+    var RCLModeIconOn = '<svg id="RCLModeIconOn" width="18px" height="18px" viewBox="0 0 512 512"><title>Открытая игра</title><g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"><path d="M869 5105 c-15 -8 -32 -29 -38 -46 -16 -45 -16 -4953 0 -4998 23 -65 -99 -61 1729 -61 1828 0 1706 -4 1729 61 16 45 16 4953 0 4998 -23 65 99 61 -1731 61 -1426 -1 -1667 -3 -1689 -15z m3241 -2545 l0 -2380 -1337 0 c-736 0 -1331 4 -1323 9 8 5 269 102 580 216 464 170 570 212 593 236 l27 29 0 1890 0 1890 -27 29 c-23 24 -129 66 -593 236 -311 114 -572 211 -580 216 -8 5 587 9 1323 9 l1337 0 0 -2380z m-2388 2074 c381 -141 705 -260 721 -266 l27 -10 0 -1798 0 -1798 -27 -10 c-16 -6 -340 -125 -721 -266 -382 -141 -698 -256 -703 -256 -5 0 -9 944 -9 2330 0 1386 4 2330 9 2330 5 0 321 -115 703 -256z"/><path d="M2126 2865 c-123 -31 -206 -205 -176 -371 21 -126 89 -217 176 -239 152 -38 274 98 274 305 0 207 -122 343 -274 305z m76 -216 c33 -63 14 -203 -28 -216 -20 -6 -46 66 -46 127 0 61 26 133 46 127 6 -2 19 -19 28 -38z"/></g></svg>';
+    var RCLModeIconOff = '<svg id="RCLModeIconOff" width="18px" height="18px" viewBox="0 0 512 512"><title>Дружеский заезд</title><g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"><path d="M869 5105 c-15 -8 -32 -29 -38 -46 -16 -45 -16 -4953 0 -4998 23 -65 -99 -61 1729 -61 1828 0 1706 -4 1729 61 16 45 16 4953 0 4998 -23 65 99 61 -1731 61 -1426 -1 -1667 -3 -1689 -15z m3256 -2545 l0 -2385 -1565 0 -1565 0 -3 2375 c-1 1306 0 2381 3 2388 3 10 322 12 1567 10 l1563 -3 0 -2385z"/><path d="M3688 2756 c-44 -19 -95 -74 -120 -130 -19 -43 -23 -68 -23 -156 0 -88 4 -113 23 -155 57 -123 164 -175 260 -126 50 26 76 55 109 126 24 52 28 72 28 155 0 83 -4 103 -28 155 -34 73 -60 102 -112 126 -45 21 -97 23 -137 5z m109 -190 c34 -64 17 -196 -31 -235 -31 -26 -76 55 -76 139 0 50 16 100 41 126 26 27 40 21 66 -30z"/></g></svg>';
+    var RCLQual = document.createElement('div');
+    var RCLQualIconOn = '<svg width="18px" height="18px"><image width="18px" height="18px" href="data:image/png;base64,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"></image></svg>';
+    var RCLQualIconOff = '<svg width="18px" height="18px" viewBox="0 0 48 48"><g transform="translate(0.000000,48.000000) scale(0.100000,-0.100000)"><path d="M122 367 c-61 -62 -112 -117 -112 -122 0 -6 52 -62 115 -125 l115 -115 115 115 c63 63 115 119 115 125 0 10 -220 235 -230 235 -3 0 -56 -51 -118 -113z m236 -10 c56 -56 102 -107 102 -112 0 -6 -49 -60 -110 -120 l-109 -109 -113 112 -113 111 110 111 c60 60 114 110 120 110 6 0 56 -46 113 -103z"/><path d="M210 365 c-9 -11 -9 -31 -1 -84 6 -38 11 -72 11 -75 0 -3 9 -6 20 -6 11 0 20 3 20 6 0 3 5 37 11 75 11 75 4 99 -31 99 -10 0 -23 -7 -30 -15z"/><path d="M217 174 c-12 -13 -8 -42 8 -48 25 -9 46 5 43 28 -3 21 -37 34 -51 20z"/></g></svg>';
     var option = (value, text) => {
         var x = document.createElement('option');
         x.setAttribute('value', value);
@@ -37,9 +42,11 @@
     }
 
     var gmid = document.URL.match(/(\d+)/)[0];
-    var info = httpGet('http://klavogonki.ru/g/' + gmid + '.info');
+    var info = httpGet(location.protocol + '//klavogonki.ru/g/' + gmid + '.info');
     info = JSON.parse(info.response).params;
+    console.log(info);
     // currentMode: открытый/дружеский
+    var currentQual = info.qual;
     var currentMode = info.type;
     var currentMin = info.level_from;
     var currentMax = info.level_to;
@@ -79,6 +86,7 @@
     RCLDiv.insert(RCLMin);
     RCLDiv.insert(RCLMax);
     RCLDiv.insert(RCLMode);
+    RCLDiv.insert(RCLQual);
 
     RCLButton.setAttribute('id', 'RCLButton');
     RCLButton.setAttribute('type', 'button');
@@ -99,19 +107,18 @@
 
     RCLTimeout.setAttribute('id', 'RCLTimeout');
     RCLTimeout.setAttribute('title', 'Таймаут');
-    RCLTimeout.insert(option('5', '5 секунд'));
-    RCLTimeout.insert(option('10', '10 секунд'));
-    RCLTimeout.insert(option('20', '20 секунд'));
-    RCLTimeout.insert(option('30', '30 секунд'));
-    RCLTimeout.insert(option('45', '45 секунд'));
-    RCLTimeout.insert(option('60', '1 минута'));
-    RCLTimeout.insert(option('120', '2 минуты'));
+    RCLTimeout.insert(option('10', '10 сек'));
+    RCLTimeout.insert(option('20', '20 сек'));
+    RCLTimeout.insert(option('30', '30 сек'));
+    RCLTimeout.insert(option('45', '45 сек'));
+    RCLTimeout.insert(option('60', '1 мин'));
+    RCLTimeout.insert(option('120', '2 мин'));
     RCLTimeout.value = currentTimeout;
 
     RCLMin.setAttribute('id', 'RCLMin');
     RCLMin.setAttribute('title', 'Минимальный ранг');
 
-    RCLMax.setAttribute('id', 'RCLMin');
+    RCLMax.setAttribute('id', 'RCLMax');
     RCLMax.setAttribute('title', 'Максимальный ранг');
 
     (() => {
@@ -125,12 +132,36 @@
     RCLMax.value = currentMax;
 
     RCLMode.setAttribute('id', 'RCLMode');
-    RCLMode.setAttribute('type', 'checkbox');
     if (currentMode == 'normal')
-        RCLMode.checked = true;
+        RCLMode.innerHTML = RCLModeIconOn;
     else
-        RCLMode.checked = false;
-    RCLMode.setAttribute('title', 'Галочка - открытый, иначе - дружеский');
+        RCLMode.innerHTML = RCLModeIconOff;
+
+    RCLMode.addEventListener('click', () => {
+        if (currentMode == 'normal') {
+            RCLMode.innerHTML = RCLModeIconOff;
+            currentMode = 'private';
+        } else {
+            RCLMode.innerHTML = RCLModeIconOn;
+            currentMode = 'normal';
+        }
+    });
+
+    RCLQual.setAttribute('id', 'RCLQual');
+    if (currentQual == 1)
+        RCLQual.innerHTML = RCLQualIconOn;
+    else
+        RCLQual.innerHTML = RCLQualIconOff;
+
+    RCLQual.addEventListener('click', () => {
+        if (currentQual == 1) {
+            RCLQual.innerHTML = RCLQualIconOff;
+            currentQual = 0;
+        } else {
+            RCLQual.innerHTML = RCLQualIconOn;
+            currentQual = 1;
+        }
+    });
 
     inviteDiv.childElements()[2].insertBefore(RCLDiv, inviteDiv.childElements()[2].childElements()[1]);
 
@@ -148,11 +179,10 @@
     // а затем фокусаут
     RCLGametype.addEventListener('focusout', (e) => {
         setTimeout(() => {
-            if (!RCLGametypeVocs.style.display == false) {
+            if (!RCLGametypeVocs.style.display == false)
                 hideOptions();
-            }
         }, 200);
-    } );
+    });
 
     function updateRCLGametypeVocs(value) {
 
@@ -225,22 +255,41 @@
             }
         } catch(e) { console.log('gametype init error') }
 
-        // открытый/дружеский
-        var mode = 'normal';
-        if (!RCLMode.checked)
-            mode = 'private';
-
         // инициализируем чат и ресивим ссылочку
         var gamechatInput = (value) => { document.querySelectorAll('.chat')[1].querySelector('.text').value = value};
         var gamechatSend = () => { document.querySelectorAll('.chat')[1].querySelector('.send').click() };
         var newRaceUrl = httpGet('http://klavogonki.ru/create/?' +
                                  'gametype=' + gametype +
-                                 '&type=' + mode +
+                                 '&type=' + currentMode +
                                  '&level_from=' + RCLMin.value +
                                  '&level_to=' + RCLMax.value +
                                  '&timeout=' + RCLTimeout.value +
+                                 '&qual=' + currentQual +
                                  '&submit=1'
                                 );
+
+        var qual = 'квалификация, ';
+        if(!currentQual)
+            var qual = '';
+
+        var privacy = 'открытая';
+        if(currentMode == 'private')
+           var privacy = 'дружеский';
+
+
+        console.log(currentGametypeName);
+        if ((RCLMin.value == '1') && (RCLMax.value == '9')) {
+            var chatInvite = currentGametypeName + ', ' + qual + privacy + ', ' + RCLTimeout.value + ' секунд';
+            gamechatInput(newRaceUrl.responseURL + ' ' + chatInvite);
+        } else {
+            var chatInvite = currentGametypeName + ', ' + qual + privacy + ', ' +
+                RCLMin.options[RCLMin.selectedIndex].text + ' — ' +
+                RCLMax.options[RCLMax.selectedIndex].text + ', ' +
+                RCLTimeout.value + ' секунд';
+            gamechatInput(newRaceUrl.responseURL + ' ' + chatInvite);
+        }
+
+/*
         if ((RCLMin.value == '1') && (RCLMax.value == '9'))
             gamechatInput(newRaceUrl.responseURL +
                           ' **' + RCLTimeout.value + ' секунд**'
@@ -251,6 +300,7 @@
                           RCLMax.options[RCLMax.selectedIndex].text +
                           ' **' + RCLTimeout.value + ' секунд**'
                          );
+*/
         gamechatSend();
     }
 
@@ -315,44 +365,45 @@
         ' max-height: 331px; ' +
         ' } ' +
 
-        ' #RCLGametype { ' +
-        ' width: 190px; ' +
-        ' outline: none; ' +
-        ' border: gray solid 1px; ' +
-        ' margin-top: 5px; ' +
-        ' border-radius: 4px; ' +
-        ' height: 26px; ' +
+        ' #RCLButton, #RCLTimeout, #RCLMin, #RCLMax { ' +
+        ' margin: 5px 5px 0px 0px; ' +
         ' } ' +
 
-        ' #RCLButton { ' +
-        ' outline: none; ' +
+        ' #RCLButton, #RCLTimeout, #RCLMin, #RCLMax, #RCLGametype { ' +
         ' border: gray solid 1px; ' +
-        ' margin: 5px 5px 0px 0px; ' +
-        ' height: 26px; ' +
+        ' outline: none; ' +
         ' border-radius: 4px; ' +
+        ' } ' +
+
+        ' #RCLGametype { ' +
+        ' width: 190px; ' +
+        ' margin-top: 5px; ' +
+        ' } ' +
+
+        ' #RCLGametype, #RCLButton { ' +
+        ' height: 26px; ' +
         ' } ' +
 
         ' #RCLTimeout { ' +
-        ' outline: none; ' +
-        ' border: gray solid 1px; ' +
-        ' margin: 5px 5px 0px 0px; ' +
-        ' border-radius: 4px; ' +
+        ' width: 62px; ' +
         ' } ' +
 
-        ' #RCLMin { ' +
-        ' outline: none; ' +
-        ' border: gray solid 1px; ' +
-        ' margin: 5px 5px 0px 0px; ' +
-        ' width: 65px;' +
-        ' border-radius: 4px; ' +
+        ' #RCLMode { ' +
+        ' display: inline; ' +
+        ' position: absolute; ' +
+        ' margin-top: 6px; ' +
+        ' margin-left: -4px; ' +
         ' } ' +
 
-        ' #RCLMax { ' +
-        ' outline: none; ' +
-        ' border: gray solid 1px; ' +
-        ' margin: 5px 5px 0px 0px; ' +
-        ' width: 65px;' +
-        ' border-radius: 4px; ' +
+        ' #RCLQual { ' +
+        ' display: inline; ' +
+        ' position: absolute; ' +
+        ' margin-top: 6px; ' +
+        ' margin-left: 16px; ' +
+        ' } ' +
+
+        ' #RCLMin, #RCLMax  { ' +
+        ' width: 65px; ' +
         ' } ';
 
     var style = document.createElement('style');
