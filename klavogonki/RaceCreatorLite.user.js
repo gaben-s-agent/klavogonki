@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         RaceCreatorLite
 // @namespace    klavogonki
-// @version      0.34
+// @version      0.35
 // @author       490344
 // @include      http://klavogonki.ru/g/*
 // @include      https://klavogonki.ru/g/*
@@ -34,6 +34,12 @@
     var RCLQual = document.createElement('div');
     var RCLQualIconOn = '<svg width="18px" height="18px"><image width="18px" height="18px" href="data:image/png;base64,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"></image></svg>';
     var RCLQualIconOff = '<svg width="18px" height="18px" viewBox="0 0 48 48"><g transform="translate(0.000000,48.000000) scale(0.100000,-0.100000)"><path d="M122 367 c-61 -62 -112 -117 -112 -122 0 -6 52 -62 115 -125 l115 -115 115 115 c63 63 115 119 115 125 0 10 -220 235 -230 235 -3 0 -56 -51 -118 -113z m236 -10 c56 -56 102 -107 102 -112 0 -6 -49 -60 -110 -120 l-109 -109 -113 112 -113 111 110 111 c60 60 114 110 120 110 6 0 56 -46 113 -103z"/><path d="M210 365 c-9 -11 -9 -31 -1 -84 6 -38 11 -72 11 -75 0 -3 9 -6 20 -6 11 0 20 3 20 6 0 3 5 37 11 75 11 75 4 99 -31 99 -10 0 -23 -7 -30 -15z"/><path d="M217 174 c-12 -13 -8 -42 8 -48 25 -9 46 5 43 28 -3 21 -37 34 -51 20z"/></g></svg>';
+    var RCLSettings = document.createElement('div');
+    var RCLSettingsIcon = '<svg width="18px" height="18px" viewBox="0 0 512 512"><g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"><path d="M1518 5060 c-249 -42 -463 -230 -543 -477 l-17 -53 -420 0 c-400 0 -421 -1 -458 -20 -45 -23 -80 -81 -80 -132 0 -46 38 -107 80 -129 32 -18 65 -19 456 -19 l422 0 17 -52 c72 -222 242 -391 465 -460 97 -30 281 -32 375 -4 178 54 352 195 428 346 112 225 100 490 -31 691 -150 229 -429 353 -694 309z m183 -300 c123 -23 229 -106 283 -220 28 -58 31 -75 31 -160 0 -85 -3 -102 -31 -160 -117 -248 -432 -303 -626 -109 -27 27 -61 75 -76 107 -24 50 -27 69 -27 162 0 93 3 112 27 162 50 107 163 194 280 217 61 12 78 12 139 1z"/><path d="M2650 4511 c-55 -29 -75 -64 -75 -131 0 -68 21 -105 76 -132 32 -17 109 -18 1194 -18 1111 0 1162 1 1195 19 42 22 80 83 80 129 0 51 -35 109 -80 132 -39 20 -56 20 -1197 20 -1108 0 -1160 -1 -1193 -19z"/><path d="M3532 3239 c-73 -12 -192 -61 -258 -105 -76 -51 -185 -171 -228 -253 -103 -196 -102 -446 1 -644 54 -104 192 -240 293 -289 123 -59 180 -72 315 -72 135 -1 210 17 322 76 154 81 282 233 334 398 l17 55 348 5 c392 6 385 4 425 81 24 48 24 90 0 138 -40 77 -33 75 -425 81 l-348 5 -17 55 c-67 211 -240 381 -461 451 -76 23 -237 33 -318 18z m263 -320 c105 -39 197 -138 230 -246 58 -192 -45 -401 -233 -474 -78 -30 -196 -30 -273 0 -150 58 -249 201 -249 361 0 272 268 455 525 359z"/><path d="M80 2691 c-42 -22 -80 -84 -80 -131 0 -47 38 -109 80 -131 33 -18 87 -19 1278 -19 1377 0 1286 -4 1335 64 31 43 31 129 0 172 -49 68 42 64 -1335 64 -1191 0 -1245 -1 -1278 -19z"/><path d="M1325 1416 c-245 -56 -443 -235 -516 -466 l-17 -55 -348 -5 c-392 -6 -385 -4 -425 -81 -24 -49 -24 -90 1 -139 38 -74 42 -74 429 -80 l343 -5 17 -55 c56 -179 212 -350 387 -423 74 -31 195 -57 269 -57 31 0 91 7 133 16 153 31 266 96 373 212 121 131 179 281 179 462 0 195 -60 340 -200 481 -94 95 -156 135 -275 174 -98 33 -255 43 -350 21z m280 -317 c146 -54 245 -200 245 -359 0 -216 -168 -383 -385 -383 -216 0 -385 168 -385 382 1 274 267 457 525 360z"/><path d="M2482 873 c-105 -52 -107 -210 -2 -263 39 -20 56 -20 1280 -20 1224 0 1241 0 1280 20 45 23 80 81 80 132 0 46 -38 107 -80 129 -33 18 -86 19 -1280 19 -1126 0 -1248 -2 -1278 -17z"/></g></svg>';
+    var RCLInvite = document.createElement('div');
+    var RCLInviteIconEdit = '<svg width="18px" height="18px" viewBox="0 0 512 512"><path d="M 35.278 477.204 L 1.074 511.407 1.329 511.662 L 1.584 511.917 53.042 495.278 L 104.500 478.638 104.953 478.282 L 105.406 477.927 87.964 460.464 L 70.521 443 70.002 443 L 69.482 443 35.278 477.204" stroke="none" fill="#340d66" fill-rule="evenodd"/><path d="M 17 458.067 L 0.500 509.093 0.166 510.796 L -0.169 512.500 34.910 477.504 L 69.988 442.509 52.255 424.754 L 34.521 407 34.010 407.020 L 33.500 407.040 17 458.067" stroke="none" fill="#373e9f" fill-rule="evenodd"/><path d="M 97.250 414.245 L 70.008 441.487 52.504 424.004 L 35 406.521 35 407.132 L 35 407.744 70.806 442.797 L 106.613 477.850 147.305 464.675 L 187.998 451.500 187.999 450.994 L 188 450.488 156.246 418.746 L 124.492 387.003 97.250 414.245" stroke="none" fill="#ffd06a" fill-rule="evenodd"/><path d="M 47.280 364.852 L 34.060 405.691 51.561 423.096 L 69.063 440.500 69.787 440.752 L 70.510 441.003 97.499 414.001 L 124.487 386.999 93 355.500 L 61.512 324 61.006 324.007 L 60.500 324.013 47.280 364.852" stroke="none" fill="#ffe7b5" fill-rule="evenodd"/><path d="M 341.500 106 L 373.489 138 249.002 262.502 L 124.515 387.004 156.504 419.004 L 188.493 451.004 313.246 326.254 L 437.999 201.504 374.252 137.752 L 310.506 74 310.009 74 L 309.512 74 341.500 106 M 87 459.500 L 104.479 477 104.979 477 L 105.479 477 88 459.500 L 70.521 442 70.021 442 L 69.521 442 87 459.500" stroke="none" fill="#ff9a27" fill-rule="evenodd"/><path d="M 185.246 199.254 L 60.996 323.507 92.959 355.459 L 124.923 387.411 125.211 386.915 L 125.500 386.418 249.496 262.211 L 373.493 138.004 342.002 106.502 L 310.512 75 310.004 75 L 309.497 75 185.246 199.254 M 105 477.500 L 105 478 105.500 478 L 106 478 106 477.500 L 106 477 105.500 477 L 105 477 105 477.500" stroke="none" fill="#ffb820" fill-rule="evenodd"/><path d="M 411.746 99.753 L 375 136.510 375 137.511 L 375 138.512 406.502 170.002 L 438.004 201.492 475.250 164.246 L 512.496 127 480.495 94.999 L 448.493 62.997 411.746 99.753" stroke="none" fill="#cc3245" fill-rule="evenodd"/><path d="M 347.500 37 L 310.511 73.999 342.268 105.768 L 374.025 137.537 411.251 100.262 L 448.476 62.988 416.994 31.494 L 385.512 -0 385.001 -0 L 384.490 -0 347.500 37" stroke="none" fill="#ff3e3a" fill-rule="evenodd"/></svg>';
+    var RCLInviteIconCut = '<svg width="18px" height="18px" viewBox="0 0 512 512"><g transform="translate(0,512) scale(0.1,-0.1)"><path d="M770 4823 c-357 -60 -646 -325 -741 -678 -29 -106 -32 -325 -6 -429 41 -163 114 -298 226 -418 116 -123 257 -209 429 -260 67 -20 99 -23 237 -22 169 0 231 11 353 64 l52 22 63 -43 c345 -240 707 -495 707 -499 0 -4 -362 -259 -707 -499 l-63 -43 -52 22 c-122 53 -184 64 -353 64 -138 1 -170 -2 -237 -22 -285 -84 -507 -282 -611 -543 -49 -122 -61 -192 -61 -344 1 -164 20 -249 84 -384 117 -245 320 -416 582 -492 105 -30 306 -37 419 -14 292 59 529 247 654 519 107 230 107 522 0 753 -19 41 -33 78 -30 82 8 15 618 436 626 434 5 -2 407 -282 894 -623 487 -340 914 -633 948 -649 127 -60 288 -84 426 -62 96 15 231 66 306 116 63 42 175 146 192 180 10 18 -78 82 -1048 760 -582 407 -1058 742 -1058 745 0 3 476 338 1058 745 970 678 1058 742 1048 760 -5 11 -38 47 -71 80 -230 226 -572 287 -853 154 -34 -16 -461 -309 -948 -649 -487 -341 -889 -621 -894 -623 -8 -2 -618 419 -626 434 -3 4 11 41 30 82 107 231 107 523 0 753 -124 270 -361 459 -647 518 -71 15 -263 20 -328 9z m313 -463 c207 -79 334 -300 297 -518 -30 -178 -160 -325 -334 -377 -64 -20 -196 -20 -257 -1 -117 36 -227 121 -281 218 -150 269 -16 602 277 690 82 24 218 19 298 -12z m-19 -2710 c65 -21 130 -63 189 -121 197 -197 173 -531 -50 -701 -239 -181 -582 -100 -709 167 -90 188 -54 394 93 541 122 123 313 168 477 114z"/></g></svg>';
+    var RCLInviteIconUnedited = '<svg width="18px" height="18px" viewBox="0 0 512 512"><path d="M 35.278 477.204 L 1.074 511.407 1.329 511.662 L 1.584 511.917 53.042 495.278 L 104.500 478.638 104.953 478.282 L 105.406 477.927 87.964 460.464 L 70.521 443 70.002 443 L 69.482 443 35.278 477.204" stroke="none" fill="#1c1c1c" fill-rule="evenodd"/><path d="M 17 458.067 L 0.500 509.093 0.166 510.796 L -0.169 512.500 34.910 477.504 L 69.988 442.509 52.255 424.754 L 34.521 407 34.010 407.020 L 33.500 407.040 17 458.067" stroke="none" fill="#444444" fill-rule="evenodd"/><path d="M 97.744 413.756 L 71 440.514 71 441.517 L 71 442.521 88.750 460.220 L 106.500 477.920 147.249 464.710 L 187.998 451.500 187.999 450.994 L 188 450.488 156.244 418.744 L 124.487 386.999 97.744 413.756" stroke="none" fill="#d3d3d3" fill-rule="evenodd"/><path d="M 47.290 364.757 L 34.080 405.500 52.041 423.497 L 70.001 441.494 97.246 414.249 L 124.492 387.004 93.002 355.502 L 61.512 324 61.006 324.007 L 60.500 324.014 47.290 364.757" stroke="none" fill="#e8e8e8" fill-rule="evenodd"/><path d="M 341.251 105.506 L 373 137.512 373 138.513 L 373 139.515 280.750 231.748 L 188.500 323.981 156.750 355.747 L 125 387.512 156.754 419.254 L 188.507 450.996 313.254 326.246 L 438.001 201.496 373.752 137.498 L 309.503 73.500 341.251 105.506 M 87 459.500 L 104.479 477 104.979 477 L 105.479 477 88 459.500 L 70.521 442 70.021 442 L 69.521 442 87 459.500" stroke="none" fill="#a7a7a7" fill-rule="evenodd"/><path d="M 185.246 199.254 L 60.996 323.507 92.998 355.498 L 124.999 387.488 249 263.496 L 373 139.505 373 138.496 L 373 137.488 341.744 106.244 L 310.488 75 309.993 75 L 309.497 75 185.246 199.254 M 52.210 424.470 L 69.920 442.413 70.210 441.957 L 70.500 441.500 52.500 424.014 L 34.500 406.528 52.210 424.470" stroke="none" fill="#bcbcbc" fill-rule="evenodd"/><path d="M 411.746 99.753 L 375 136.510 375 137.511 L 375 138.512 406.502 170.002 L 438.004 201.492 475.250 164.246 L 512.496 127 480.495 94.999 L 448.493 62.997 411.746 99.753" stroke="none" fill="#545454" fill-rule="evenodd"/><path d="M 347.500 37 L 310.511 73.999 342.268 105.768 L 374.025 137.537 411.251 100.262 L 448.476 62.988 416.994 31.494 L 385.512 -0 385.001 -0 L 384.490 -0 347.500 37" stroke="none" fill="#676767" fill-rule="evenodd"/></svg>';
     var option = (value, text) => {
         var x = document.createElement('option');
         x.setAttribute('value', value);
@@ -86,8 +92,7 @@
     RCLDiv.insert(RCLTimeout);
     RCLDiv.insert(RCLMin);
     RCLDiv.insert(RCLMax);
-    RCLDiv.insert(RCLMode);
-    RCLDiv.insert(RCLQual);
+    RCLDiv.insert(RCLSettings);
 
     RCLButton.setAttribute('id', 'RCLButton');
     RCLButton.setAttribute('type', 'button');
@@ -163,6 +168,81 @@
             currentQual = 1;
         }
     });
+
+    RCLSettings.setAttribute('id', 'RCLSettings');
+    RCLSettings.innerHTML = RCLSettingsIcon;
+    RCLSettings.insert(RCLMode);
+    RCLSettings.insert(RCLQual);
+    RCLInvite.setAttribute('id', 'RCLInvite');
+    RCLSettings.insert(RCLInvite);
+
+    var inviteState = 'unedited';
+    var localStorageName = 'RaceCreatorLite';
+
+    function initInviteIcon(inviteState) {
+
+    }
+
+    if ( (localStorage[localStorageName]) && (JSON.parse(localStorage[localStorageName])?.inviteState) ) {
+        switch(JSON.parse(localStorage[localStorageName]).inviteState) {
+            case 'unedited':
+                RCLInvite.innerHTML = RCLInviteIconUnedited;
+                inviteState = 'unedited';
+                break;
+            case 'edit':
+                RCLInvite.innerHTML = RCLInviteIconEdit;
+                inviteState = 'edit';
+                break;
+            case 'cut':
+                RCLInvite.innerHTML = RCLInviteIconCut;
+                inviteState = 'cut';
+                break;
+        }
+    } else {
+        localStorage[localStorageName] = JSON.stringify({'inviteState': inviteState});
+        RCLInvite.innerHTML = RCLInviteIconUnedited;
+    }
+
+    RCLInvite.addEventListener('click', () => {
+        switch(inviteState) {
+            case 'unedited':
+                RCLInvite.innerHTML = RCLInviteIconEdit;
+                inviteState = 'edit';
+                localStorage[localStorageName] = JSON.stringify({'inviteState': inviteState});
+                break;
+            case 'edit':
+                RCLInvite.innerHTML = RCLInviteIconCut;
+                inviteState = 'cut';
+                localStorage[localStorageName] = JSON.stringify({'inviteState': inviteState});
+                break;
+            case 'cut':
+                RCLInvite.innerHTML = RCLInviteIconUnedited;
+                inviteState = 'unedited';
+                localStorage[localStorageName] = JSON.stringify({'inviteState': inviteState});
+                break;
+        }
+    });
+
+
+    RCLSettings.addEventListener('click', () => {
+        RCLInvite.style.display = 'inline';
+        RCLMode.style.display = 'inline';
+        RCLQual.style.display = 'inline';
+        RCLSettings.firstChild.style.visibility = 'hidden';
+        //RCLSettings.style.translate = '-91px -85px';
+        RCLMin.style.width = '55px';
+        RCLMax.style.width = '55px';
+    });
+    document.getElementById('invite').addEventListener('mouseleave', () => {
+        RCLInvite.style.display = 'none';
+        RCLMode.style.display = 'none';
+        RCLQual.style.display = 'none';
+        RCLSettings.firstChild.style.visibility = 'visible';
+        //RCLSettings.style.translate = '-141px -85px';
+        RCLMin.style.width = '75px';
+        RCLMax.style.width = '75px';
+    });
+
 
     inviteDiv.childElements()[2].insertBefore(RCLDiv, inviteDiv.childElements()[2].childElements()[1]);
 
@@ -246,6 +326,7 @@
         // иначе смотрим цифровой айди в датасете
         // иначе берем буквенный айди из датасета
 
+
         var gametype = null;
         var fv = null;
 
@@ -301,16 +382,26 @@
 
         if ((RCLMin.value == '1') && (RCLMax.value == '9')) {
             var chatInvite = fv + ', ' + qual + privacy + ', ' + RCLTimeout.value + ' секунд';
-            gamechatInput(newRaceUrl.responseURL + ' ' + chatInvite);
         } else {
             var chatInvite = fv + ', ' + qual + privacy + ', ' +
                 RCLMin.options[RCLMin.selectedIndex].text + ' — ' +
                 RCLMax.options[RCLMax.selectedIndex].text + ', ' +
                 RCLTimeout.value + ' секунд';
-            gamechatInput(newRaceUrl.responseURL + ' ' + chatInvite);
         }
 
-        gamechatSend();
+
+        switch (inviteState) {
+            case 'unedited':
+                gamechatInput(newRaceUrl.responseURL + ' ' + chatInvite);
+                gamechatSend();
+                break;
+            case 'edit':
+                gamechatInput(newRaceUrl.responseURL + ' ' + chatInvite);
+                break;
+            case 'cut':
+                gamechatInput(newRaceUrl.responseURL + ' ');
+                break;
+        }
     }
 
     function httpGet(theUrl) {
@@ -398,21 +489,42 @@
         ' } ' +
 
         ' #RCLMode { ' +
-        ' display: inline; ' +
+        ' display: none; ' +
         ' position: absolute; ' +
-        ' margin-top: 6px; ' +
-        ' margin-left: -4px; ' +
+        ' margin-left: -20px; ' +
         ' } ' +
 
         ' #RCLQual { ' +
+        ' display: none; ' +
+        ' position: absolute; ' +
+        ' margin-left: 0px; ' +
+        ' } ' +
+
+        ' #RCLInvite { ' +
+        ' display: none; ' +
+        ' position: absolute; ' +
+        ' margin-left: -40px; ' +
+        ' } ' +
+
+        ' #RCLSettings { ' +
         ' display: inline; ' +
         ' position: absolute; ' +
-        ' margin-top: 6px; ' +
-        ' margin-left: 16px; ' +
+        ' width: 18px; ' +
+        ' height: 18px; ' +
+        ' } ' +
+
+        ' #RCLSettings > svg { ' +
+        ' position: absolute; ' +
+        ' top: 6px; ' +
+        ' } ' +
+
+        ' #RCLQual, #RCLMode, #RCLInvite { ' +
+        ' top: 6px; ' +
+        ' left: 40px; ' +
         ' } ' +
 
         ' #RCLMin, #RCLMax  { ' +
-        ' width: 65px; ' +
+        ' width: 75px; ' +
         ' } ';
 
     var style = document.createElement('style');
